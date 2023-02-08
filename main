@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+export OPTIMIZER_WORKDIR=$(cd $(dirname $0) && pwd)
+. "$OPTIMIZER_WORKDIR/common"
+
+cli_help() {
+  cli_name=${0##*/}
+  echo "
+Dockerfile Optimizer CLI
+Version: $(cat $OPTIMIZER_WORKDIR/VERSION)
+Usage: $cli_name [command]
+Commands:
+  deploy    Deploy
+  test      Test
+  *         Help
+"
+  exit 1
+}
+
+cli_log "Exporting config ..."
+export $(cat "$OPTIMIZER_WORKDIR/config.template" | xargs)
+
+case "$1" in
+  test|t)
+    timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    "$OPTIMIZER_WORKDIR/commands/test" "$2" | tee -ia "$OPTIMIZER_WORKDIR/logs/test_$timestamp.log"
+    ;;
+  *)
+    cli_help
+    ;;
+esac

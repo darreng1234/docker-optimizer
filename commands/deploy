@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -e
+
+echo "$OPTIMIZER_WORKDIR"
+#. "$OPTIMIZER_WORKDIR/common"
+
+cli_help_deploy() {
+  echo "
+Command: deploy
+Usage: 
+  deploy project_name"
+  exit 1
+}
+
+[ ! -n "$1" ] && cli_help_deploy
+
+export OPTIMIZER_PROJECT_NAME=$1
+
+# cli_log "Deployment BEGIN"
+
+# cli_log "ENV variables"
+env | grep "OPTIMIZER_*"
+
+# cli_log "Executing helm upgrade --install ..."
+# Example
+# helm upgrade --install \
+#   --wait \
+#   --values $OPTIMIZER_PROJECTS_PATH/$OPTIMIZER_PROJECT_NAME/values.yaml \
+#   --namespace $OPTIMIZER_K8S_NAMESPACE $OPTIMIZER_PROJECT_NAME $OPTIMIZER_REPO_PATH
+
+#cli_log "Deployment END"

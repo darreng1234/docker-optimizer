@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+cli_help_deploy() {
+  echo "
+Command: test
+Usage: 
+  test /path/to/dockerfile"
+  exit 1
+}
+
+[ ! -n "$1" ] && cli_help_deploy
+
+#cli_log "Docker Build BEGIN"
+
+docker build -f $1 .
