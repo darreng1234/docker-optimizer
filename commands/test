@@ -1,16 +1,39 @@
 #!/usr/bin/env bash
 set -e
+export OPTIMIZER_WORKDIR=$(cd $(dirname $0) && pwd)
+source "$OPTIMIZER_WORKDIR/multistage"
+source "$OPTIMIZER_WORKDIR/buildtest"
+source "$OPTIMIZER_WORKDIR/cleanup"
 
 cli_help_deploy() {
   echo "
 Command: test
-Usage: 
-  test /path/to/dockerfile"
+Usage: ./main test [path] [package-manager]
+Commands:
+  path /path/to/dockerfile
+  package-manager apt|pip|
+  "
   exit 1
 }
 
-[ ! -n "$1" ] && cli_help_deploy
+[ ! -n "$1" ] || [ ! -n "$2" ]  && cli_help_deploy
 
 #cli_log "Docker Build BEGIN"
 
-docker build -f $1 .
+#Check Docker build
+buildtest $1
+
+#Check for multistaged build
+mulitstage_build $1
+
+#Check for package cleanup
+package_cleanup $1 $2
+
+echo "\n**********************************************************************"
+echo -e "Image size will be reduced drastically if above methods are followed"
+echo -e "*******************************************************************"
+echo -e "Application Shutting down"
+
+#Image sizes
+
+

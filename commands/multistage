@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -e
+
+fmt="%-30s %s\n"
+time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+USER=$USER
+RED='\033[0;31m'
+GREEN='\033[0;32'
+BLUE='\033[0;34'
+NC='\033[0m' # No Color
+
+
+mulitstage_build(){
+    echo -e "\n##########################################################"
+    printf "${fmt}" "Checking multistage build parameters ..."
+    echo "##########################################################"
+    #Check for multistaged build
+    local x
+    if  cat $1 | grep -q "^COPY\s--from*"  ||  cat $1 | grep -q "^\s(AS|as)\s*" ; then
+        printf "${fmt}" "Multistage build process Found "
+        printf "${fmt}" "Follow remaning optimization processes"
+        echo "##########################################################"
+    else
+        sleep 5;
+        printf "${fmt}" "Multistage build not Found ..."
+        printf "${fmt}" "Finding Optimizations ..."
+        echo -e "Creation date: ${time}"
+        echo -e "performed by: ${USER}\n"
+        sleep 5;
+        echo -e "${RED}Two Main Optmizations found${NC} \n\t=> Building Docker Images by Stages - https://docs.docker.com/build/building/multi-stage/"
+        sleep 3;
+        echo -e "\t=> Copy Dependancies from one stage to another - https://docs.docker.com/engine/reference/builder/\n"
+        sleep 3;
+    fi
+}
+
+#export $mulitstage

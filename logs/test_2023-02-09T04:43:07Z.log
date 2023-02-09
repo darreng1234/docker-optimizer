@@ -1,0 +1,15 @@
+
+********************************************
+Checking cleanup build parameters ... 
+*************************************************
+Package cleanups not Found ... 
+Finding Optimizations ...      
+Creation date: 2023-02-09T04:43:07Z
+performed by: darren
+
+[0;31mTwo Main Optmizations found[0m
+[0;34	=> APT Package Remove - https://manpages.ubuntu.com/manpages/xenial/man8/apt.8.html#:~:text=autoremove%20(apt%2Dget(8,were%20removed%20in%20the%20meantime.[0m
+[0;34	=> APT Package Clean - https://linux.die.net/man/8/apt-get[0m
+**********************************************************************
+Image size will be reduced drastically if above two steps are done
+*******************************************************************

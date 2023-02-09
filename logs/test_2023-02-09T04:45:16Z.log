@@ -1,0 +1,31 @@
+Docker build passed. Optimization process starting
+
+##########################################################
+Checking multistage build parameters ... 
+##########################################################
+Multistage build not Found ... 
+Finding Optimizations ...      
+Creation date: 2023-02-09T04:45:16Z
+performed by: darren
+
+[0;31mTwo Main Optmizations found[0m 
+	=> Building Docker Images by Stages - https://docs.docker.com/build/building/multi-stage/
+	=> Copy Dependancies from one stage to another - https://docs.docker.com/engine/reference/builder/
+
+##########################################################
+Image size will be reduced drastically if above two steps are done
+##########################################################
+
+********************************************
+Checking cleanup build parameters ... 
+*************************************************
+Package cleanups not Found ... 
+Finding Optimizations ...      
+Creation date: 2023-02-09T04:45:16Z
+performed by: darren
+
+[0;31mTwo Main Optmizations found[0m
+	=> PIP cache maintain - https://pip.pypa.io/en/stable/cli/pip_cache/
+**********************************************************************
+Image size will be reduced drastically if above two steps are done
+**********************************************************************

@@ -1,0 +1,14 @@
+
+********************************************
+Checking cleanup build parameters ... 
+*************************************************
+Package cleanups not Found ... 
+Finding Optimizations ...      
+Creation date: 2023-02-09T04:44:09Z
+performed by: darren
+
+[0;31mTwo Main Optmizations found[0m
+	=> PIP cache maintain - https://pip.pypa.io/en/stable/cli/pip_cache/
+**********************************************************************
+Image size will be reduced drastically if above two steps are done
+**********************************************************************
