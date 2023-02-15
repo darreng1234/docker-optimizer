@@ -24,7 +24,7 @@ export $(cat "$OPTIMIZER_WORKDIR/config.template" | xargs)
 case "$1" in
   test|t)
     timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-    "$OPTIMIZER_WORKDIR/commands/test" "$2" "$3" | tee -ia "$OPTIMIZER_WORKDIR/logs/test_$timestamp.log"
+    "$OPTIMIZER_WORKDIR/commands/test" "$2" "$3" "$4" | tee -ia "$OPTIMIZER_WORKDIR/logs/test_$timestamp.log"
     ;;
   *)
     cli_help

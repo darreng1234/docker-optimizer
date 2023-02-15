@@ -32,12 +32,12 @@ mulitstage_build $1
 package_cleanup $1 $2
 
 #Check for base image optimizations
-package_cleanup $3
+base_image $3
 
-echo "\n**********************************************************************"
+echo "**********************************************************************"
 echo -e "Image size will be reduced drastically if above methods are followed"
 echo -e "*******************************************************************"
-echo -e "Application Shutting down"
+echo -e "\nApplication Shutting down ..."
 
 #Image sizes
 

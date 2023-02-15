@@ -28,15 +28,15 @@ base_image(){
     printf "${fmt}" "Checking Base Image Optimizations ..."
     echo "*************************************************"
 
-    if [[ ! -n "$1"]]; then
+    if [[ ! -n "$1" ]]; then
         cli_help_deploy
         echo -e "Set the base image dependancies needed for better results \n Find basic optimizations listed below"
         extra_opt
-    elif [[ "$1" == "python" ]]; then
+    elif [[ "$1" == "python"  ]]; then
         echo -e "Python Slim Images"
         echo -e "\t=> https://hub.docker.com/_/python/tags?page=1&name=slim \n"
         extra_opt
-    elif [[ "$1" == "python" ]]; then
+    elif [[ "$1" == "node" ]]; then
         echo -e "Node Slim Images"
         echo -e "\t=> https://hub.docker.com/_/node/tags?page=1&name=slim \n"      
         extra_opt
