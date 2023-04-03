@@ -1,9 +1,0 @@
-##########################################################
-Checking multistage build parameters 
-##########################################################
-Multistage build not Found     
-Creation date: 2023-02-09T02:17:33Z
-performed by: darren
-Two Main Optmizations found /n/t=> Building Docker Images by Stages - https://docs.docker.com/build/building/multi-stage/ 
-	=>Copy Dependancies from one stage to another - https://docs.docker.com/engine/reference/builder/
-Image size will be reduced drastically if above two steps are done

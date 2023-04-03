@@ -1,6 +1,0 @@
-
-Command: test
-Usage: 
-  test /path/to/dockerfile
-  package-manager apt|pip|
-  
