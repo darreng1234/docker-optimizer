@@ -2,6 +2,7 @@ package docker
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
@@ -29,14 +30,19 @@ func GetImagesOnNode(cli client.Client) []ExistingImageDetails {
 
 	for _, image := range images {
 
-		imageLayer := GetBuiltImageLayer(cli, image.ID)
-		var imageData = ExistingImageDetails{
-			ImageId:     image.ID,
-			ImageTag:    image.RepoTags[0],
-			ImageLayers: imageLayer,
-		}
+		if image.RepoTags[0] != "<none>:<none>" {
+			imageLayer := GetImageData(cli, image.ID)
 
-		imageMetadata = append(imageMetadata, imageData)
+			var imageData = ExistingImageDetails{
+				ImageId:     imageLayer.ImageId,
+				ImageTag:    imageLayer.ImageTag,
+				ImageLayers: imageLayer.ImageLayers,
+			}
+
+			imageMetadata = append(imageMetadata, imageData)
+		} else {
+			fmt.Printf("Untagged Image Found: %v \n", image.ID)
+		}
 
 	}
 
