@@ -8,4 +8,6 @@ import "github.com/darreng1234/docker-optimizer/cmd"
 
 func main() {
 	cmd.Execute()
+
+	//docker.BuildImage()
 }

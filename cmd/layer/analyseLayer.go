@@ -7,7 +7,7 @@ package layer
 import (
 	"fmt"
 
-	"github.com/darreng1234/docker-optimizer/docker"
+	docker "github.com/darreng1234/docker-optimizer/docker/layers"
 	"github.com/docker/docker/client"
 	"github.com/spf13/cobra"
 )
