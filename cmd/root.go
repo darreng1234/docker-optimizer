@@ -5,13 +5,11 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/darreng1234/docker-optimizer/cmd/layer"
 	"github.com/darreng1234/docker-optimizer/cmd/slim"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -50,16 +48,4 @@ func init() {
 	// when this action is called directly.
 	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	addSubCommandPallette()
-
-	viper.SetConfigName("build")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("config/")
-
-	err := viper.ReadInConfig()
-
-	if err != nil { // Handle errors reading the config file
-		panic(fmt.Errorf("fatal error config file: %w", err))
-	}
-
-	fmt.Printf("%v", viper.Get("test.option"))
 }

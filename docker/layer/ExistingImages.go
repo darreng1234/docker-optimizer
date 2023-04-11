@@ -1,4 +1,4 @@
-package docker
+package layer
 
 import (
 	"context"
@@ -14,6 +14,7 @@ type ExistingImageDetails struct {
 	ImageId     string
 	ImageTag    string
 	ImageLayers []string
+	ImageSize   int64
 }
 
 func GetImagesOnNode(cli client.Client) []ExistingImageDetails {
@@ -37,6 +38,7 @@ func GetImagesOnNode(cli client.Client) []ExistingImageDetails {
 				ImageId:     imageLayer.ImageId,
 				ImageTag:    imageLayer.ImageTag,
 				ImageLayers: imageLayer.ImageLayers,
+				ImageSize:   imageLayer.ImageSize,
 			}
 
 			imageMetadata = append(imageMetadata, imageData)

@@ -1,4 +1,4 @@
-package docker
+package layer
 
 import (
 	"context"
@@ -22,6 +22,7 @@ func GetImageData(client client.Client, imageId string) ExistingImageDetails {
 		imageData.ImageId = resp.ID
 		imageData.ImageTag = resp.RepoTags[0]
 		imageData.ImageLayers = resp.RootFS.Layers
+		imageData.ImageSize = resp.Size
 	}
 
 	client.Close()

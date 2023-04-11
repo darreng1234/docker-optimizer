@@ -1,3 +1,8 @@
-name: "darren"
-test:
-  option: "new"
+templateFiles: "/Users/darren/Desktop/Optimzer/docker-optimizer/templates/python/python3-Dockerfile"
+buildOpts:
+  technology: "python"
+  version: "3.9"
+  codeDir: "/Users/darren/Desktop/Optimzer/sample-python-app/user-service/"
+  repository: "sample-app"
+  tag: "v1.0.0"
+  defaultDockerFileName: "Dockerfile"
