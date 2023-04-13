@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/darreng1234/docker-optimizer/cmd/layer"
+	"github.com/darreng1234/docker-optimizer/cmd/manifest"
 	"github.com/darreng1234/docker-optimizer/cmd/slim"
 	"github.com/spf13/cobra"
 )
@@ -35,6 +36,7 @@ func addSubCommandPallette() {
 	//rootCmd.AddCommand(net.NetCmd)
 	rootCmd.AddCommand(layer.AnalyseLayerCmd)
 	rootCmd.AddCommand(slim.SlimImageCmd)
+	rootCmd.AddCommand(manifest.ManifestCheckerCmd)
 }
 
 func init() {
