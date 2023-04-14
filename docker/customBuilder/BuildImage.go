@@ -43,7 +43,7 @@ func BuildImage(client client.Client, buildConfigs BuildConfigs) {
 		} else if foundv2 {
 			BuildImageWithVersion(client, buildConfigs, "python2-Dockerfile")
 		} else {
-			log.Error("Not Supported", buildConfigs.Version, " version not supported yet")
+			log.Error("Not Supported", buildConfigs.Technology, buildConfigs.Version, "version not supported yet")
 		}
 
 	} else {

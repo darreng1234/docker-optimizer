@@ -1,7 +1,7 @@
 templateFiles: "/Users/darren/Desktop/Optimzer/docker-optimizer/templates/python/"
 buildOpts:
   technology: "python"
-  version: "3.9"
+  version: "5.6"
   codeDir: "/Users/darren/Desktop/Optimzer/sample-python-app/user-service/"
   repository: "sample-app"
   tag: "v1.0.0"
