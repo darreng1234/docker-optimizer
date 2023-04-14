@@ -2,10 +2,10 @@ package layer
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
+	"github.com/pickme-go/log"
 )
 
 var images = make([]ExistingImageDetails, 0)
@@ -24,6 +24,7 @@ func GetImagesOnNode(cli client.Client) []ExistingImageDetails {
 	images, err := cli.ImageList(ctx, types.ImageListOptions{})
 
 	if err != nil {
+		log.Error("Build Error", err)
 		panic(err)
 	}
 
@@ -43,7 +44,7 @@ func GetImagesOnNode(cli client.Client) []ExistingImageDetails {
 
 			imageMetadata = append(imageMetadata, imageData)
 		} else {
-			fmt.Printf("Untagged Image Found: %v \n", image.ID)
+			log.Warn("Untagged Image Found", image.ID)
 		}
 
 	}

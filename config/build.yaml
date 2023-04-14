@@ -1,4 +1,4 @@
-templateFiles: "/Users/darren/Desktop/Optimzer/docker-optimizer/templates/python/python3-Dockerfile"
+templateFiles: "/Users/darren/Desktop/Optimzer/docker-optimizer/templates/python/"
 buildOpts:
   technology: "python"
   version: "3.9"

@@ -9,6 +9,7 @@ import (
 
 	docker "github.com/darreng1234/docker-optimizer/docker/layer"
 	"github.com/docker/docker/client"
+	"github.com/pickme-go/log"
 	"github.com/spf13/cobra"
 )
 
@@ -30,6 +31,7 @@ var AnalyseLayerCmd = &cobra.Command{
 
 		cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 		if err != nil {
+			log.Error("Client Error", err)
 			panic(err)
 		}
 		defer cli.Close()
@@ -51,7 +53,8 @@ var AnalyseLayerCmd = &cobra.Command{
 						similarImageTags: similarImageTags,
 					}
 
-					fmt.Printf("The Image: %v has %v common layers with tags: %v\n", image.ImageTag, len(image.similarImageTags), image.similarImageTags)
+					//fmt.Printf("The Image: %v has %v common layers with tags: %v\n", image.ImageTag, len(image.similarImageTags), image.similarImageTags)
+					log.Info("Common Layer", "The Image: ", image.ImageTag, " has ", len(image.similarImageTags), " common layers with tags: ", image.similarImageTags)
 				}
 			}
 		} else {
@@ -80,7 +83,7 @@ func init() {
 	AnalyseLayerCmd.Flags().StringVarP(&imageId, "imageId", "i", "", "The Image Id")
 
 	if err := AnalyseLayerCmd.MarkFlagRequired("imageId"); err != nil {
-		fmt.Println(err)
+		log.Error("Not Found", err)
 	}
 
 }

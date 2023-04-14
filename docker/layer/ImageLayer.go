@@ -2,9 +2,9 @@ package layer
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/docker/docker/client"
+	"github.com/pickme-go/log"
 )
 
 func GetImageData(client client.Client, imageId string) ExistingImageDetails {
@@ -17,7 +17,7 @@ func GetImageData(client client.Client, imageId string) ExistingImageDetails {
 
 	//Check for untagged Images or errors thrown by docker sdk
 	if err != nil {
-		fmt.Printf("%v \n", err)
+		log.Error("Untagged", err)
 	} else {
 		imageData.ImageId = resp.ID
 		imageData.ImageTag = resp.RepoTags[0]

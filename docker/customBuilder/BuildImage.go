@@ -5,11 +5,13 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"regexp"
 
 	"github.com/darreng1234/docker-optimizer/docker/layer"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/pkg/archive"
+	"github.com/pickme-go/log"
 )
 
 type BuildConfigs struct {
@@ -24,61 +26,29 @@ type BuildConfigs struct {
 
 func BuildImage(client client.Client, buildConfigs BuildConfigs) {
 
-	os.Link(buildConfigs.TemplateFiles, buildConfigs.CodeDir+"python3-Dockerfile")
+	if buildConfigs.Technology == "python" {
 
-	ctx := context.Background()
+		foundv3, err := regexp.MatchString("^3.*", buildConfigs.Version)
+		if err != nil {
+			log.Error("Regex Error", err)
+		}
 
-	tar, err := archive.TarWithOptions(buildConfigs.CodeDir, &archive.TarOptions{})
-	if err != nil {
-		fmt.Printf("%v", err)
+		foundv2, err := regexp.MatchString("^2.*", buildConfigs.Version)
+		if err != nil {
+			log.Error("Regex Error", err)
+		}
+
+		if foundv3 {
+			BuildImageWithVersion(client, buildConfigs, "python3-Dockerfile")
+		} else if foundv2 {
+			BuildImageWithVersion(client, buildConfigs, "python2-Dockerfile")
+		} else {
+			log.Error("Not Supported", buildConfigs.Version, " version not supported yet")
+		}
+
+	} else {
+		log.Warn("Not Supported", buildConfigs.Technology, " Not Supported Yet")
 	}
-
-	optsOptimized := types.ImageBuildOptions{
-		Dockerfile: "python3-Dockerfile",
-		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "optimized"},
-		Remove:     true,
-	}
-	res, err := client.ImageBuild(ctx, tar, optsOptimized)
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-
-	fmt.Printf("%v", res)
-
-	scanner := bufio.NewScanner(res.Body)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
-
-	ctxRaw := context.Background()
-	tarRaw, err := archive.TarWithOptions(buildConfigs.CodeDir, &archive.TarOptions{})
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-
-	optsRaw := types.ImageBuildOptions{
-		Dockerfile: buildConfigs.DefaultDockerFileName,
-		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "raw"},
-		Remove:     true,
-	}
-
-	resRaw, err := client.ImageBuild(ctxRaw, tarRaw, optsRaw)
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-	fmt.Printf("%v", resRaw)
-
-	scannerRaw := bufio.NewScanner(resRaw.Body)
-	for scannerRaw.Scan() {
-		fmt.Println(scannerRaw.Text())
-	}
-
-	rawImageSize, optimizedImageSize := imageCompare(client, buildConfigs.Repository+":"+buildConfigs.Tag+"raw", buildConfigs.Repository+":"+buildConfigs.Tag+"optimized")
-
-	percentageReduction := ((rawImageSize - optimizedImageSize) / rawImageSize) * 100
-	fmt.Printf("User Image Size: %vMB\n", int64(rawImageSize)/1000000)
-	fmt.Printf("Optimizer Image Size: %vMB\n", int64(optimizedImageSize)/1000000)
-	fmt.Printf("Optimzer image reduction percentage: %.2f%%\n", percentageReduction)
 
 }
 
@@ -99,5 +69,67 @@ func imageCompare(client client.Client, rawImageTag string, optimizedImageTag st
 	}
 
 	return rawImageSize, optimizedImageSize
+
+}
+
+func BuildImageWithVersion(client client.Client, buildConfigs BuildConfigs, manifest string) {
+
+	os.Link(buildConfigs.TemplateFiles+manifest, buildConfigs.CodeDir+manifest)
+
+	defer os.Remove(buildConfigs.CodeDir + manifest)
+
+	ctx := context.Background()
+
+	tar, err := archive.TarWithOptions(buildConfigs.CodeDir, &archive.TarOptions{})
+	if err != nil {
+		log.Error("Not Found", err)
+	}
+
+	optsOptimized := types.ImageBuildOptions{
+		Dockerfile: manifest,
+		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "-optimized"},
+		Remove:     true,
+	}
+
+	res, err := client.ImageBuild(ctx, tar, optsOptimized)
+	if err != nil {
+		log.Error("Not Found", err)
+	}
+
+	fmt.Printf("%v", res)
+
+	scanner := bufio.NewScanner(res.Body)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+
+	ctxRaw := context.Background()
+	tarRaw, err := archive.TarWithOptions(buildConfigs.CodeDir, &archive.TarOptions{})
+	if err != nil {
+		log.Error("Tar Err", err)
+	}
+
+	optsRaw := types.ImageBuildOptions{
+		Dockerfile: buildConfigs.DefaultDockerFileName,
+		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "-raw"},
+		Remove:     true,
+	}
+
+	resRaw, err := client.ImageBuild(ctxRaw, tarRaw, optsRaw)
+	if err != nil {
+		log.Error("Client Error", err)
+	}
+
+	scannerRaw := bufio.NewScanner(resRaw.Body)
+	for scannerRaw.Scan() {
+		fmt.Println(scannerRaw.Text())
+	}
+
+	rawImageSize, optimizedImageSize := imageCompare(client, buildConfigs.Repository+":"+buildConfigs.Tag+"-raw", buildConfigs.Repository+":"+buildConfigs.Tag+"-optimized")
+
+	percentageReduction := ((rawImageSize - optimizedImageSize) / rawImageSize) * 100
+	fmt.Printf("User Image Size: %vMB\n", int64(rawImageSize)/1000000)
+	fmt.Printf("Optimizer Image Size: %vMB\n", int64(optimizedImageSize)/1000000)
+	fmt.Printf("Optimzer image reduction percentage: %.2f%%\n", percentageReduction)
 
 }

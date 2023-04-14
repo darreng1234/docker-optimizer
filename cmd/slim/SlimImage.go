@@ -5,6 +5,7 @@ import (
 
 	"github.com/darreng1234/docker-optimizer/docker/customBuilder"
 	"github.com/docker/docker/client"
+	"github.com/pickme-go/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -23,8 +24,11 @@ var SlimImageCmd = &cobra.Command{
 
 		err := viper.ReadInConfig()
 
-		if err != nil { // Handle errors reading the config file
-			panic(fmt.Errorf("fatal error config file: %w", err))
+		// Handle errors reading the config file
+
+		if err != nil {
+			log.Error("Config Err", err)
+			panic(err)
 		}
 
 		buildConfigs := customBuilder.BuildConfigs{
@@ -39,6 +43,7 @@ var SlimImageCmd = &cobra.Command{
 
 		cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 		if err != nil {
+			log.Error("Client Error", err)
 			panic(err)
 		}
 		defer cli.Close()
@@ -53,7 +58,7 @@ func init() {
 	SlimImageCmd.Flags().StringVarP(&configDir, "configDir", "c", "", "The directory of the build configs")
 
 	if err := SlimImageCmd.MarkFlagRequired("configDir"); err != nil {
-		fmt.Println(err)
+		log.Error("Not Found", err)
 	}
 
 }
