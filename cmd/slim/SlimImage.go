@@ -15,8 +15,8 @@ var configDir string
 // slimImageCmd represents the slimImage command
 var SlimImageCmd = &cobra.Command{
 	Use:   "slim-image",
-	Short: "slim-image",
-	Long:  `A longer description of slim-image`,
+	Short: "Slim your Docker image by passing build configs",
+	Long:  `Slim your Docker image by passing build configs`,
 	Run: func(cmd *cobra.Command, args []string) {
 		viper.SetConfigName("build")
 		viper.SetConfigType("yaml")

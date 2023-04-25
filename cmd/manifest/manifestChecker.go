@@ -21,8 +21,8 @@ var packageManager string
 // manifestCheckerCmd represents the manifestChecker command
 var ManifestCheckerCmd = &cobra.Command{
 	Use:   "manifest-checker",
-	Short: "manifest-checker",
-	Long:  `manifest-checker`,
+	Short: "Scan your Docker manfiests by passing a Dockerfile",
+	Long:  `Scan your Docker manfiests by passing a Dockerfile`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		availablePackages := [...]string{"pip", "apt"}

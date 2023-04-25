@@ -25,8 +25,8 @@ var imageId string
 // analyseLayerCmd represents the analyseLayer command
 var AnalyseLayerCmd = &cobra.Command{
 	Use:   "analyse-layer",
-	Short: "Layer Analysis",
-	Long:  `Layer Analysis Long Desc`,
+	Short: "Analyze your Docker Image layers with your existing layers by passing a docker image id",
+	Long:  `Analyze your Docker Image layers with your existing layers by passing a docker image id`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
@@ -53,7 +53,6 @@ var AnalyseLayerCmd = &cobra.Command{
 						similarImageTags: similarImageTags,
 					}
 
-					//fmt.Printf("The Image: %v has %v common layers with tags: %v\n", image.ImageTag, len(image.similarImageTags), image.similarImageTags)
 					log.Info("Common Layer", "The Image: ", image.ImageTag, " has ", len(image.similarImageTags), " common layers with tags: ", image.similarImageTags)
 				}
 			}
