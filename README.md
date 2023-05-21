@@ -18,7 +18,7 @@ $ go build
 
 - After the build there should a non readable binary file called `docker-optizer` which can be used to run the application.
 
-## Setting up 
+## Usage
 ### Default Command Palette 
 ```bash
 ./docker-optimizer
