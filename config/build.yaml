@@ -1,8 +1,8 @@
-templateFiles: "/Users/nikkitagomez/Desktop/Optimizer/docker-optimizer/templates/python/"
+templateFiles: "/Users/darren/Desktop/Optimzer/docker-optimizer/templates/python/"
 buildOpts:
   technology: "python"
-  version: "3.7"
-  codeDir: "/Users/nikkitagomez/Desktop/Optimizer/sample-app/user-service/"
+  version: "3.9"
+  codeDir: "/Users/darren/Desktop/Optimzer/sample-python-app/user-service/"
   repository: "sample-app"
-  tag: "v1.0.0"
+  tag: "v1.2.0"
   defaultDockerFileName: "Dockerfile"

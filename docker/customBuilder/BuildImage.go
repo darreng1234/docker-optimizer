@@ -58,6 +58,8 @@ func imageCompare(client client.Client, rawImageTag string, optimizedImageTag st
 	var optimizedImageSize float64
 	existingImages := layer.GetImagesOnNode(client)
 
+	//fmt.Printf("%v,%v", rawImageTag, optimizedImageTag)
+
 	for _, image := range existingImages {
 
 		if image.ImageTag == rawImageTag {
@@ -68,6 +70,7 @@ func imageCompare(client client.Client, rawImageTag string, optimizedImageTag st
 		}
 	}
 
+	//fmt.Printf("%v,%v", rawImageSize, optimizedImageSize)
 	return rawImageSize, optimizedImageSize
 
 }
@@ -87,7 +90,7 @@ func BuildImageWithVersion(client client.Client, buildConfigs BuildConfigs, mani
 
 	optsOptimized := types.ImageBuildOptions{
 		Dockerfile: manifest,
-		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "-optimized"},
+		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "optimized"},
 		Remove:     true,
 	}
 
@@ -111,7 +114,7 @@ func BuildImageWithVersion(client client.Client, buildConfigs BuildConfigs, mani
 
 	optsRaw := types.ImageBuildOptions{
 		Dockerfile: buildConfigs.DefaultDockerFileName,
-		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "-raw"},
+		Tags:       []string{buildConfigs.Repository + ":" + buildConfigs.Tag + "raw"},
 		Remove:     true,
 	}
 
@@ -125,8 +128,9 @@ func BuildImageWithVersion(client client.Client, buildConfigs BuildConfigs, mani
 		fmt.Println(scannerRaw.Text())
 	}
 
-	rawImageSize, optimizedImageSize := imageCompare(client, buildConfigs.Repository+":"+buildConfigs.Tag+"-raw", buildConfigs.Repository+":"+buildConfigs.Tag+"-optimized")
+	rawImageSize, optimizedImageSize := imageCompare(client, buildConfigs.Repository+":"+buildConfigs.Tag+"raw", buildConfigs.Repository+":"+buildConfigs.Tag+"optimized")
 
+	// time.Sleep(5 * time.Second)
 	percentageReduction := ((rawImageSize - optimizedImageSize) / rawImageSize) * 100
 	fmt.Printf("User Image Size: %vMB\n", int64(rawImageSize)/1000000)
 	fmt.Printf("Optimizer Image Size: %vMB\n", int64(optimizedImageSize)/1000000)

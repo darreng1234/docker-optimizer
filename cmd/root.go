@@ -18,7 +18,6 @@ var rootCmd = &cobra.Command{
 	Use:   "docker-optimizer",
 	Short: "Choose an optimization option to continue with the process",
 	Long:  `Choose an optimization option to continue with the process`,
-
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

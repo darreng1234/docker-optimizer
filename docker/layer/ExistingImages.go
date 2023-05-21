@@ -2,6 +2,7 @@ package layer
 
 import (
 	"context"
+	"time"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
@@ -44,6 +45,7 @@ func GetImagesOnNode(cli client.Client) []ExistingImageDetails {
 
 			imageMetadata = append(imageMetadata, imageData)
 		} else {
+			time.Sleep(2 * time.Second)
 			log.Warn("Untagged Image Found", image.ID)
 		}
 
